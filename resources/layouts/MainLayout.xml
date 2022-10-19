@@ -1,0 +1,15 @@
+<layout id="MainLayout">
+  <!-- <drawable id="outlinecircle" /> -->
+  <!-- <label text="Pom Time" x="30%" y="20%" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_SYSTEM_TINY"  />
+  <label id="pomtimeLbl" x="30%" y="27%" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_NUMBER_MEDIUM" text="25" />
+  <label text="Count" x="70%" y="20%" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_SYSTEM_TINY"  />
+  <label id="countLbl" x="70%" y="27%" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_NUMBER_MEDIUM" text="4" />
+  <label text="Short" x="30%" y="55%" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_SYSTEM_TINY"  />
+  <label id="shortLbl" x="30%" y="62%" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_NUMBER_MEDIUM" text="5" />
+  <label text="Long" x="70%" y="55%" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_SYSTEM_TINY"  />
+  <label id="longbl" x="70%" y="62%" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_NUMBER_MEDIUM" text="15" />
+  <drawable id="midbar" />
+  <drawable id="centerbar" /> -->
+  <drawable id="start" visible="true" />
+  <drawable id="pauseOver" visible="false" />
+</layout>
