@@ -59,12 +59,8 @@ class PomLogic extends WatchUi.BehaviorDelegate {
     var now = Time.now().value();
     var seconds = _startSeconds - (now - _timerStart);
     var minutes = Math.ceil(seconds / 60.0);
-    System.println(seconds / 60.0);
-    if (minutes < 0) {
-      minutes = 0;
-    }
 
-    if (minutes == 0) {
+    if (minutes <= 0) {
       switch (_state) {
         case $.AppState.POM:
           if (_count == PomStorage.getPomCountToLong() - 1) {

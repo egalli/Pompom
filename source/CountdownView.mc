@@ -12,7 +12,6 @@ class CountdownView extends WatchUi.View {
   private var _fillArc as bool;
   private var _minutes as Number;
   private var _count as Number;
-  private var _lastTime as Number;
 
   public function initialize() {
     View.initialize();
@@ -21,7 +20,6 @@ class CountdownView extends WatchUi.View {
     _angle = 0;
     _fillArc = true;
     _count = 0;
-    _lastTime = 0;
   }
 
   public function onLayout(dc as Dc) as Void {
@@ -31,8 +29,6 @@ class CountdownView extends WatchUi.View {
     _pauseOverlay = new $.Rez.Drawables.pauseOver();
     _isPaused = false;
     _fillArc = true;
-    _lastTime = 0;
-    System.println("layout");
 
     _timeLbl.setText(_minutes.format("%02d"));
     _countLbl.setText(_count.toString());
@@ -56,19 +52,11 @@ class CountdownView extends WatchUi.View {
         _isBreak ? Graphics.COLOR_BLUE : Graphics.COLOR_GREEN,
         Graphics.COLOR_TRANSPARENT
       );
+      var a = 360 - _angle;
       if (!_fillArc) {
-        System.println(_angle);
-        dc.drawArc(x, y, x - 2, Graphics.ARC_CLOCKWISE, _angle + 90, 90);
-      } else if (_angle != 0) {
-        System.println(_angle);
-        dc.drawArc(
-          x,
-          y,
-          x - 2,
-          Graphics.ARC_COUNTER_CLOCKWISE,
-          _angle + 90,
-          90
-        );
+        dc.drawArc(x, y, x - 2, Graphics.ARC_CLOCKWISE, 90, a + 90);
+      } else if (a != 360) {
+        dc.drawArc(x, y, x - 2, Graphics.ARC_COUNTER_CLOCKWISE, 90, a + 90);
       }
     }
   }
@@ -94,22 +82,22 @@ class CountdownView extends WatchUi.View {
   }
 
   public function setTime(time as Number) {
-    var minutes = Math.ceil(time / 60.0).toNumber();
+    var minutesFloat = time / 60.0;
+    var minutes = Math.ceil(minutesFloat).toNumber();
     if (_timeLbl != null && _minutes != minutes) {
       _timeLbl.setText(minutes.format("%02d"));
       WatchUi.requestUpdate();
+      _minutes = minutes;
     }
-    var seconds = time % 60;
-    var angle = (seconds / 60.0) * 360.0;
-    if (seconds == 0) {
-      _fillArc = !_fillArc;
-      WatchUi.requestUpdate();
-    } else if (_angle != angle) {
+    var seconds = minutesFloat - minutesFloat.toNumber();
+    var angle = seconds * 360.0;
+    if (_angle != angle) {
+      if (seconds == 0) {
+        _fillArc = !_fillArc;
+      }
+      _angle = angle;
       WatchUi.requestUpdate();
     }
-    _angle = angle;
-    _minutes = minutes;
-    _lastTime = time;
   }
 
   public function setCount(count as Number) {
