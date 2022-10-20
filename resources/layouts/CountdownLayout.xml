@@ -4,5 +4,4 @@
   <drawable id="midbar" />
   <label text="Count" x="center" y="140" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_SYSTEM_TINY"/>
   <label id="countLbl" text="00" x="center" y="160" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_SYSTEM_NUMBER_HOT"/>
-  <drawable id="pauseOver" />
 </layout>

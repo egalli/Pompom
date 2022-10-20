@@ -50,7 +50,7 @@ class PomLogic extends WatchUi.BehaviorDelegate {
   }
 
   private function startOrResume() {
-    _countdownView.setMinutes(Math.ceil(_startSeconds / 60.0));
+    _countdownView.setTime(_startSeconds);
     _timerStart = Time.now().value();
     _timer.start(method(:tickCallback), 1000, true);
   }
@@ -63,7 +63,6 @@ class PomLogic extends WatchUi.BehaviorDelegate {
     if (minutes < 0) {
       minutes = 0;
     }
-    _countdownView.setMinutes(minutes);
 
     if (minutes == 0) {
       switch (_state) {
@@ -78,13 +77,13 @@ class PomLogic extends WatchUi.BehaviorDelegate {
             System.println("short break");
           }
           _countdownView.setBreak(true);
-          _countdownView.setMinutes(Math.ceil(_startSeconds / 60.0));
+          _countdownView.setTime(_startSeconds);
           _timerStart = Time.now().value();
           break;
         case $.AppState.BREAK_SHORT:
           _state = $.AppState.POM_PAUSED;
           _startSeconds = PomStorage.getPomTime() * 60;
-          _countdownView.setMinutes(_startSeconds / 60);
+          _countdownView.setTime(_startSeconds);
           _countdownView.setPaused(true);
           _countdownView.setBreak(false);
           ++_count;
@@ -99,6 +98,8 @@ class PomLogic extends WatchUi.BehaviorDelegate {
 
           break;
       }
+    } else {
+      _countdownView.setTime(seconds);
     }
   }
 

@@ -16,7 +16,6 @@
     <shape type="polygon" points="[[130,230],[105,242],[106,245],[130,233],[154,245],[155,242],[130,230]]" color="Graphics.COLOR_WHITE" />
   </drawable-list>
   <drawable-list id="pauseOver" background="Graphics.COLOR_TRANSPARENT">
-    <shape type="circle" x="50%" y="50%" radius="129" color="Graphics.COLOR_TRANSPARENT" border_width="4" border_color="Graphics.COLOR_RED" />
     <shape type="circle" x="246" y="66" radius="44" color="Graphics.COLOR_GREEN" />
     <shape type="polygon" points="[[235,77],[222,69],[222,87]]" color="Graphics.COLOR_BLACK" />
   </drawable-list>
