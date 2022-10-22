@@ -8,6 +8,10 @@ module AppState {
     return (state & PAUSED) != 0;
   }
 
+  function baseState(state as AppState) as AppState {
+    return state & ~PAUSED;
+  }
+
   enum AppState {
     MAIN_VIEW = 0x0,
     POM = 0x1,
@@ -34,6 +38,7 @@ module PomStorage {
     STATE_CURRENT,
     STATE_COUNT,
     STATE_LAST_STORE,
+    STATE_EXIT_TIME,
   }
 
   function setupStorage() {
@@ -98,5 +103,12 @@ module PomStorage {
   }
   function setLastStore(value as Number) {
     Storage.setValue(STATE_LAST_STORE, value);
+  }
+
+  function getExitTime() as Number {
+    return Storage.getValue(STATE_EXIT_TIME);
+  }
+  function setExitTime(time as Number) {
+    Storage.setValue(STATE_EXIT_TIME, time);
   }
 }

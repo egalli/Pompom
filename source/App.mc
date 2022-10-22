@@ -11,15 +11,14 @@ class BackgroundDelegate extends System.ServiceDelegate {
   }
 
   public function onTemporalEvent() {
-    Background.requestApplicationWake("test!");
+    Background.requestApplicationWake("Countdown finished");
     Background.exit(true);
   }
 }
 
-
 (:background)
 class PompomApp extends Application.AppBase {
-  private var _logic as PomLogic;
+  private var _logic as PomLogic?;
 
   function initialize() {
     AppBase.initialize();
@@ -35,8 +34,10 @@ class PompomApp extends Application.AppBase {
     return [new BackgroundDelegate()] as Array<ServiceDelegate>;
   }
 
-  public function onKey(keyEvent as KeyEvent) as Boolean {
-    return false;
+  function onStop(state as Lang.Dictionary?) as Void {
+    if (_logic != null) {
+      _logic.saveState();
+    }
   }
 }
 

@@ -1,4 +1,5 @@
 import Toybox.WatchUi;
+import Toybox.Background;
 import Toybox.Application.Storage;
 import Toybox.Timer;
 import Toybox.Time;
@@ -22,11 +23,64 @@ class PomLogic extends WatchUi.BehaviorDelegate {
     _timer = new Timer.Timer();
 
     if (_state != $.AppState.MAIN_VIEW) {
+      _count = $.PomStorage.getCount();
+      _countdownView.setCount(_count + 1);
+      _startSeconds = $.PomStorage.getLastStore();
+      if (!$.AppState.isPaused(_state)) {
+        var now = Time.now();
+        _startSeconds -= now.value() - $.PomStorage.getExitTime();
+      }
+      while (_state != $.AppState.MAIN_VIEW && _startSeconds <= 0) {
+        var extraTime = _startSeconds;
+        nextState();
+        if ($.AppState.isPaused(_state)) {
+          break;
+        }
+        _startSeconds += extraTime;
+      }
+      _countdownView.setTime(_startSeconds);
     }
   }
 
   public function getInitialView() as WatchUi.View {
+    if (_state != $.AppState.MAIN_VIEW && !$.AppState.isPaused(_state)) {
+      startOrResume();
+    }
     return stateToView();
+  }
+
+  private function nextState() {
+    switch (_state) {
+      case $.AppState.POM:
+        if (_count == PomStorage.getPomCountToLong() - 1) {
+          _state = $.AppState.BREAK_LONG;
+          _startSeconds = PomStorage.getLongBreak() * 60;
+        } else {
+          _state = $.AppState.BREAK_SHORT;
+          _startSeconds = PomStorage.getShortBreak() * 60;
+        }
+        _countdownView.setBreak(true);
+        _countdownView.setTime(_startSeconds);
+        _timerStart = Time.now().value();
+        break;
+      case $.AppState.BREAK_SHORT:
+        _state = $.AppState.POM_PAUSED;
+        _startSeconds = PomStorage.getPomTime() * 60;
+        _countdownView.setTime(_startSeconds);
+        _countdownView.setPaused(true);
+        _countdownView.setBreak(false);
+        ++_count;
+        _countdownView.setCount(_count + 1);
+        _timer.stop();
+
+        break;
+      case $.AppState.BREAK_LONG:
+        _state = $.AppState.MAIN_VIEW;
+        WatchUi.switchToView(stateToView(), self, WatchUi.SLIDE_IMMEDIATE);
+        _timer.stop();
+
+        break;
+    }
   }
 
   private function stateToView() as WatchUi.View {
@@ -61,41 +115,38 @@ class PomLogic extends WatchUi.BehaviorDelegate {
     var minutes = Math.ceil(seconds / 60.0);
 
     if (minutes <= 0) {
-      switch (_state) {
-        case $.AppState.POM:
-          if (_count == PomStorage.getPomCountToLong() - 1) {
-            _state = $.AppState.BREAK_LONG;
-            _startSeconds = PomStorage.getLongBreak() * 60;
-            System.println("long break");
-          } else {
-            _state = $.AppState.BREAK_SHORT;
-            _startSeconds = PomStorage.getShortBreak() * 60;
-            System.println("short break");
-          }
-          _countdownView.setBreak(true);
-          _countdownView.setTime(_startSeconds);
-          _timerStart = Time.now().value();
-          break;
-        case $.AppState.BREAK_SHORT:
-          _state = $.AppState.POM_PAUSED;
-          _startSeconds = PomStorage.getPomTime() * 60;
-          _countdownView.setTime(_startSeconds);
-          _countdownView.setPaused(true);
-          _countdownView.setBreak(false);
-          ++_count;
-          _countdownView.setCount(_count + 1);
-          _timer.stop();
-
-          break;
-        case $.AppState.BREAK_LONG:
-          _state = $.AppState.MAIN_VIEW;
-          WatchUi.switchToView(stateToView(), self, WatchUi.SLIDE_IMMEDIATE);
-          _timer.stop();
-
-          break;
-      }
+      nextState();
     } else {
       _countdownView.setTime(seconds);
+    }
+  }
+
+  public function saveState() {
+    PomStorage.setCurrent(_state);
+    switch (_state) {
+      case $.AppState.MAIN_VIEW:
+        break;
+
+      case $.AppState.BREAK_SHORT:
+      case $.AppState.BREAK_LONG:
+      case $.AppState.POM:
+        _timer.stop();
+        var now = Time.now();
+        var remaining = _startSeconds - (now.value() - _timerStart);
+        PomStorage.setLastStore(remaining);
+        PomStorage.setCount(_count);
+        PomStorage.setExitTime(now.value());
+        Background.registerForTemporalEvent(
+          now.add(new Time.Duration(remaining))
+        );
+        break;
+
+      case $.AppState.BREAK_SHORT_PAUSED:
+      case $.AppState.BREAK_LONG_PAUSED:
+      case $.AppState.POM_PAUSED:
+        PomStorage.setLastStore(_startSeconds);
+        PomStorage.setCount(_count);
+        break;
     }
   }
 
@@ -143,31 +194,4 @@ class PomLogic extends WatchUi.BehaviorDelegate {
 
     return false;
   }
-
-  // function onKey2(keyEvent as KeyEvent) as Boolean {
-  //   if (_state == $.AppState.MAIN_VIEW) {
-  //     if (keyEvent.getKey() == WatchUi.KEY_ENTER) {
-  //       _state = $.AppState.POM;
-  //       WatchUi.switchToView(getActiveView(), self, WatchUi.SLIDE_IMMEDIATE);
-
-  //       return true;
-  //     }
-  //   } else {
-  //     if (keyEvent.getKey() == WatchUi.KEY_ENTER) {
-  //       if ((_state & $.AppState.PAUSED) != 0) {
-  //         _state &= ~$.AppState.PAUSED;
-  //         _countdownView.setPaused(false);
-  //       } else {
-  //         _state |= $.AppState.PAUSED;
-  //         _countdownView.setPaused(true);
-  //       }
-  //     }
-  //     if (keyEvent.getKey() == WatchUi.KEY_ESC) {
-  //       _state = $.AppState.MAIN_VIEW;
-  //       WatchUi.switchToView(getActiveView(), self, WatchUi.SLIDE_IMMEDIATE);
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // }
 }

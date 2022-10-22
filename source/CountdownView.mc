@@ -27,7 +27,6 @@ class CountdownView extends WatchUi.View {
     _timeLbl = View.findDrawableById("timeLbl");
     _countLbl = View.findDrawableById("countLbl");
     _pauseOverlay = new $.Rez.Drawables.pauseOver();
-    _isPaused = false;
     _fillArc = true;
 
     _timeLbl.setText(_minutes.format("%02d"));
@@ -87,7 +86,6 @@ class CountdownView extends WatchUi.View {
     if (_timeLbl != null && _minutes != minutes) {
       _timeLbl.setText(minutes.format("%02d"));
       WatchUi.requestUpdate();
-      _minutes = minutes;
     }
     var seconds = minutesFloat - minutesFloat.toNumber();
     var angle = seconds * 360.0;
@@ -98,6 +96,7 @@ class CountdownView extends WatchUi.View {
       _angle = angle;
       WatchUi.requestUpdate();
     }
+    _minutes = minutes;
   }
 
   public function setCount(count as Number) {
