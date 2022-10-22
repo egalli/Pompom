@@ -3,6 +3,7 @@ import Toybox.Background;
 import Toybox.Application.Storage;
 import Toybox.Timer;
 import Toybox.Time;
+import Toybox.Attention;
 
 class PomLogic extends WatchUi.BehaviorDelegate {
   private var _mainView as MainView;
@@ -13,9 +14,25 @@ class PomLogic extends WatchUi.BehaviorDelegate {
   private var _timerStart as Number;
   private var _startSeconds as Number;
 
+  private static const _START_PATTERN as Lang.Array<Attention.VibeProfile> = [
+    new Attention.VibeProfile(50, 200),
+  ];
+  private static const _STOP_PATTERN as Lang.Array<Attention.VibeProfile> =
+    _START_PATTERN;
+  private static const _END_PATTERN as Lang.Array<Attention.VibeProfile> = [
+    new Attention.VibeProfile(50, 400),
+  ];
+  private static const _BREAK_PATTERN as Lang.Array<Attention.VibeProfile> = [
+    new Attention.VibeProfile(50, 200),
+    new Attention.VibeProfile(0, 200),
+    new Attention.VibeProfile(50, 200),
+  ];
+  private static const _POM_PATTERN as Lang.Array<Attention.VibeProfile> =
+    _BREAK_PATTERN;
+
   function initialize() {
     BehaviorDelegate.initialize();
-
+    Background.deleteTemporalEvent();
     $.PomStorage.setupStorage();
     _mainView = new MainView();
     _countdownView = new CountdownView();
@@ -116,6 +133,18 @@ class PomLogic extends WatchUi.BehaviorDelegate {
 
     if (minutes <= 0) {
       nextState();
+      switch ($.AppState.baseState(_state)) {
+        case $.AppState.MAIN_VIEW:
+          Attention.vibrate(_END_PATTERN);
+          break;
+        case $.AppState.POM:
+          Attention.vibrate(_POM_PATTERN);
+          break;
+        case $.AppState.BREAK_SHORT:
+        case $.AppState.BREAK_LONG:
+          Attention.vibrate(_BREAK_PATTERN);
+          break;
+      }
     } else {
       _countdownView.setTime(seconds);
     }
@@ -161,6 +190,7 @@ class PomLogic extends WatchUi.BehaviorDelegate {
           _countdownView.setCount(_count + 1);
           startOrResume();
           WatchUi.switchToView(stateToView(), self, WatchUi.SLIDE_IMMEDIATE);
+          Attention.vibrate(_START_PATTERN);
           return true;
         }
         break;
@@ -174,6 +204,7 @@ class PomLogic extends WatchUi.BehaviorDelegate {
           var now = Time.now().value();
           _startSeconds -= now - _timerStart;
           _countdownView.setPaused(true);
+          Attention.vibrate(_STOP_PATTERN);
         }
         return true;
 
@@ -184,9 +215,11 @@ class PomLogic extends WatchUi.BehaviorDelegate {
           _state &= ~$.AppState.PAUSED;
           startOrResume();
           _countdownView.setPaused(false);
+          Attention.vibrate(_START_PATTERN);
         } else {
           _state = $.AppState.MAIN_VIEW;
           WatchUi.switchToView(stateToView(), self, WatchUi.SLIDE_IMMEDIATE);
+          Attention.vibrate(_END_PATTERN);
         }
 
         return true;
