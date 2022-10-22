@@ -39,6 +39,7 @@ module PomStorage {
     STATE_COUNT,
     STATE_LAST_STORE,
     STATE_EXIT_TIME,
+    STATE_FILL_ARC,
   }
 
   function setupStorage() {
@@ -54,6 +55,8 @@ module PomStorage {
 
     Storage.setValue(STATE_CURRENT, $.AppState.MAIN_VIEW);
     Storage.setValue(STATE_COUNT, 0);
+    Storage.setValue(STATE_EXIT_TIME, 0);
+    Storage.setValue(STATE_FILL_ARC, false);
   }
 
   function getPomTime() as Number {
@@ -110,5 +113,12 @@ module PomStorage {
   }
   function setExitTime(time as Number) {
     Storage.setValue(STATE_EXIT_TIME, time);
+  }
+
+  function getFillArc() as Boolean {
+    return Storage.getValue(STATE_FILL_ARC);
+  }
+  function setFillArc(fillArc as Boolean) {
+    Storage.setValue(STATE_FILL_ARC, fillArc);
   }
 }

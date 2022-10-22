@@ -18,8 +18,12 @@ class CountdownView extends WatchUi.View {
     _isBreak = false;
     _minutes = 0;
     _angle = 0;
-    _fillArc = true;
+    _fillArc = $.PomStorage.getFillArc();
     _count = 0;
+  }
+
+  public function reset() {
+    _fillArc = true;
   }
 
   public function onLayout(dc as Dc) as Void {
@@ -27,7 +31,6 @@ class CountdownView extends WatchUi.View {
     _timeLbl = View.findDrawableById("timeLbl");
     _countLbl = View.findDrawableById("countLbl");
     _pauseOverlay = new $.Rez.Drawables.pauseOver();
-    _fillArc = true;
 
     _timeLbl.setText(_minutes.format("%02d"));
     _countLbl.setText(_count.toString());
@@ -58,6 +61,10 @@ class CountdownView extends WatchUi.View {
         dc.drawArc(x, y, x - 2, Graphics.ARC_COUNTER_CLOCKWISE, 90, a + 90);
       }
     }
+  }
+
+  public function onHide() as Void {
+    $.PomStorage.setFillArc(_fillArc);
   }
 
   public function setBreak(isBreak as Boolean) {

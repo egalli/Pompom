@@ -188,6 +188,7 @@ class PomLogic extends WatchUi.BehaviorDelegate {
           var pomTime = PomStorage.getPomTime();
           _startSeconds = pomTime * 60;
           _countdownView.setCount(_count + 1);
+          _countdownView.reset();
           startOrResume();
           WatchUi.switchToView(stateToView(), self, WatchUi.SLIDE_IMMEDIATE);
           Attention.vibrate(_START_PATTERN);
