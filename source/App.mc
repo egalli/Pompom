@@ -11,7 +11,9 @@ class BackgroundDelegate extends System.ServiceDelegate {
   }
 
   public function onTemporalEvent() {
-    Background.requestApplicationWake("Countdown finished");
+    if ($.PomStorage.getCurrent() != $.AppState.MAIN_VIEW) {
+      Background.requestApplicationWake("Countdown finished");
+    }
     Background.exit(true);
   }
 }

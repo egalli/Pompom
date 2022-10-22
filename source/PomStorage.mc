@@ -1,6 +1,7 @@
 import Toybox.Application.Storage;
 import Toybox.System;
 
+(:background)
 module AppState {
   const PAUSED = 0x100;
 
@@ -24,6 +25,7 @@ module AppState {
   }
 }
 
+(:background)
 module PomStorage {
   const SETTINGS_VERSION = 0;
 
