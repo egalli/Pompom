@@ -76,7 +76,7 @@ class PomLogic extends WatchUi.BehaviorDelegate {
           _state = $.AppState.BREAK_SHORT;
           _startSeconds = PomStorage.getShortBreak() * 60;
         }
-        _countdownView.setBreak(true);
+        _countdownView.setMode($.CountdownMode.appStateToMode(_state));
         _countdownView.setTime(_startSeconds);
         _timerStart = Time.now().value();
         break;
@@ -85,7 +85,7 @@ class PomLogic extends WatchUi.BehaviorDelegate {
         _startSeconds = PomStorage.getPomTime() * 60;
         _countdownView.setTime(_startSeconds);
         _countdownView.setPaused(true);
-        _countdownView.setBreak(false);
+        _countdownView.setMode($.CountdownMode.appStateToMode(_state));
         ++_count;
         _countdownView.setCount(_count + 1);
         _timer.stop();
@@ -102,20 +102,11 @@ class PomLogic extends WatchUi.BehaviorDelegate {
 
   private function stateToView() as WatchUi.View {
     var state = _state;
-    switch (state) {
-      case $.AppState.MAIN_VIEW:
-        return _mainView;
-
-      case $.AppState.POM:
-      case $.AppState.POM_PAUSED:
-        _countdownView.setBreak(false);
-        break;
-
-      default:
-        _countdownView.setBreak(true);
-        break;
+    if (state == $.AppState.MAIN_VIEW) {
+      return _mainView;
     }
 
+    _countdownView.setMode($.CountdownMode.appStateToMode(state));
     _countdownView.setPaused($.AppState.isPaused(state));
     return _countdownView;
   }

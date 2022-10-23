@@ -1,7 +1,7 @@
 <layout id="CountdownLayout">
-  <label text="Countdown" x="center" y="20" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_SYSTEM_TINY"/>
+  <label id="msgLbl" text="-" x="center" y="20" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_SYSTEM_TINY"/>
   <label id="timeLbl" text="00" x="center" y="40" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_SYSTEM_NUMBER_HOT" color="Graphics.COLOR_GREEN"/>
   <drawable id="midbar" />
-  <label text="Count" x="center" y="140" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_SYSTEM_TINY"/>
+  <label text="Pom Count" x="center" y="140" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_SYSTEM_TINY"/>
   <label id="countLbl" text="00" x="center" y="160" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_SYSTEM_NUMBER_HOT"/>
 </layout>

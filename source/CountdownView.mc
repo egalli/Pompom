@@ -82,12 +82,58 @@ function drawSec(
   }
 }
 
+module CountdownMode {
+  enum CountdownMode {
+    POM,
+    SHORT_BREAK,
+    LONG_BREAK,
+  }
+
+  function appStateToMode(state as AppState) as CountdownMode {
+    switch ($.AppState.baseState(state)) {
+      case $.AppState.BREAK_SHORT:
+        return SHORT_BREAK;
+      case $.AppState.BREAK_LONG:
+        return LONG_BREAK;
+      default:
+        return POM;
+    }
+  }
+
+  function modeToColor(mode as CountdownMode) as Graphics.ColorType {
+    switch (mode) {
+      case POM:
+        return Graphics.COLOR_GREEN;
+      case SHORT_BREAK:
+        return Graphics.COLOR_BLUE;
+      case LONG_BREAK:
+        return Graphics.COLOR_PURPLE;
+    }
+    // This shouldn't happen
+    return Graphics.COLOR_TRANSPARENT;
+  }
+
+  function modeToText(mode as CountdownMode) as Lang.String {
+    // TODO: we should probably be using resource strings for these
+    switch (mode) {
+      case POM:
+        return "Pom";
+      case SHORT_BREAK:
+        return "Short";
+      case LONG_BREAK:
+        return "Long";
+    }
+  }
+}
+
 class CountdownView extends WatchUi.View {
   private var _pauseOverlay as WatchUi.Drawable?;
   private var _isPaused as Boolean;
-  private var _isBreak as Boolean;
+  private var _mode as CountdownMode;
+  private var _color as Graphics.ColorType;
   private var _timeLbl as WatchUi.Text;
   private var _countLbl as WatchUi.Text;
+  private var _msgLbl as WatchUi.Text;
   private var _angle as Number;
   private var _fillArc as bool;
   private var _minutes as Number;
@@ -95,7 +141,8 @@ class CountdownView extends WatchUi.View {
 
   public function initialize() {
     View.initialize();
-    _isBreak = false;
+    _mode = $.CountdownMode.POM;
+    _color = $.CountdownMode.modeToColor(_mode);
     _minutes = 0;
     _angle = 360;
     _fillArc = $.PomStorage.getFillArc();
@@ -111,14 +158,13 @@ class CountdownView extends WatchUi.View {
     setLayout($.Rez.Layouts.CountdownLayout(dc));
     _timeLbl = View.findDrawableById("timeLbl");
     _countLbl = View.findDrawableById("countLbl");
+    _msgLbl = View.findDrawableById("msgLbl");
     _pauseOverlay = new $.Rez.Drawables.pauseOver();
 
     _timeLbl.setText(_minutes.format("%02d"));
     _countLbl.setText(_count.toString());
-
-    if (_isBreak) {
-      _timeLbl.setColor(Graphics.COLOR_BLUE);
-    }
+    _msgLbl.setText($.CountdownMode.modeToText(_mode));
+    _timeLbl.setColor(_color);
   }
 
   public function onUpdate(dc as Dc) as Void {
@@ -129,12 +175,9 @@ class CountdownView extends WatchUi.View {
       drawSec(dc, 128, 360, false);
       _pauseOverlay.draw(dc);
     } else {
-      dc.setPenWidth(8);
-      dc.setColor(
-        _isBreak ? Graphics.COLOR_BLUE : Graphics.COLOR_GREEN,
-        Graphics.COLOR_TRANSPARENT
-      );
-      drawSec(dc, 126, _angle, !_fillArc);
+      dc.setPenWidth(7);
+      dc.setColor(_color, Graphics.COLOR_TRANSPARENT);
+      drawSec(dc, 122, _angle, !_fillArc);
     }
   }
 
@@ -142,16 +185,16 @@ class CountdownView extends WatchUi.View {
     $.PomStorage.setFillArc(_fillArc);
   }
 
-  public function setBreak(isBreak as Boolean) {
-    if (_timeLbl != null && _isBreak != isBreak) {
-      if (isBreak) {
-        _timeLbl.setColor(Graphics.COLOR_BLUE);
-      } else {
-        _timeLbl.setColor(Graphics.COLOR_GREEN);
-      }
+  public function setMode(mode as CountdownMode) {
+    var color = $.CountdownMode.modeToColor(mode);
+    if (_timeLbl != null && _mode != mode) {
+      _timeLbl.setColor(color);
+      _msgLbl.setText($.CountdownMode.modeToText(mode));
+
       WatchUi.requestUpdate();
     }
-    _isBreak = isBreak;
+    _mode = mode;
+    _color = color;
   }
 
   public function setPaused(paused as Boolean) {
