@@ -1,5 +1,8 @@
 <resources>
   <bitmap id="LauncherIcon" filename="launcher_icon.png" />
+  <drawable-list id="MainPom">
+    <bitmap id="main_pom" x="76" y="60" filename="main_pom.png" />
+  </drawable-list>
   <drawable-list id="start" background="Graphics.COLOR_TRANSPARENT">
     <shape type="circle" x="246" y="66" radius="44" color="Graphics.COLOR_GREEN" />
     <shape type="polygon" points="[[237,75],[222,67],[222,85]]" color="Graphics.COLOR_BLACK" />

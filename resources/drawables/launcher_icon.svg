@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="35"
+   height="35"
+   viewBox="0 0 9.2604165 9.2604166"
+   version="1.1"
+   id="svg2177"
+   inkscape:export-filename="launcher_icon.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   sodipodi:docname="launcher_icon.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview2179"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="16"
+     inkscape:cx="14.5625"
+     inkscape:cy="18.34375"
+     inkscape:window-width="1350"
+     inkscape:window-height="994"
+     inkscape:window-x="2339"
+     inkscape:window-y="337"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer3">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3684" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2174">
+    <inkscape:path-effect
+       effect="powermask"
+       id="path-effect3672"
+       is_visible="true"
+       lpeversion="1"
+       uri="#mask-powermask-path-effect3672"
+       invert="false"
+       hide_mask="false"
+       background="true"
+       background_color="#ffffffff" />
+    <filter
+       id="mask-powermask-path-effect3634_inverse"
+       inkscape:label="filtermask-powermask-path-effect3634"
+       style="color-interpolation-filters:sRGB"
+       height="100"
+       width="100"
+       x="-50"
+       y="-50">
+      <feColorMatrix
+         id="mask-powermask-path-effect3634_primitive1"
+         values="1"
+         type="saturate"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         id="mask-powermask-path-effect3634_primitive2"
+         values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0 "
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       id="mask-powermask-path-effect3648_inverse"
+       inkscape:label="filtermask-powermask-path-effect3648"
+       style="color-interpolation-filters:sRGB"
+       height="100"
+       width="100"
+       x="-50"
+       y="-50">
+      <feColorMatrix
+         id="mask-powermask-path-effect3648_primitive1"
+         values="1"
+         type="saturate"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         id="mask-powermask-path-effect3648_primitive2"
+         values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0 "
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       id="mask-powermask-path-effect3653_inverse"
+       inkscape:label="filtermask-powermask-path-effect3653"
+       style="color-interpolation-filters:sRGB"
+       height="100"
+       width="100"
+       x="-50"
+       y="-50">
+      <feColorMatrix
+         id="mask-powermask-path-effect3653_primitive1"
+         values="1"
+         type="saturate"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         id="mask-powermask-path-effect3653_primitive2"
+         values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0 "
+         in="fbSourceGraphic" />
+    </filter>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Layer 2">
+    <g
+       id="g1436"
+       inkscape:transform-center-x="0.12431718"
+       inkscape:transform-center-y="-0.52726654"
+       transform="matrix(0.29597407,6.2211009e-4,-6.8210579e-4,0.29581167,-5.5266047,-4.9307302)"
+       inkscape:export-filename="mainPom.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       style="fill:#ff0101;fill-opacity:1;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1">
+      <path
+         id="path1209"
+         style="fill:#ff0101;fill-opacity:1;stroke:none;stroke-width:1.85208;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+         d="m 34.398934,16.872355 -1.666521,2.879513 -3.389088,-2.281346 0.892497,4.527363 h 0.02377 c -5.811719,1.890443 -9.090209,6.300146 -9.092925,12.397948 0,7.306267 5.922899,13.229166 13.229166,13.229167 C 41.7021,47.625 47.625,41.7021 47.625,34.395833 47.624685,28.357254 44.933296,23.585454 39.084524,22.083357 l 0.0031,0 0.546088,-4.887943 -3.65448,2.170327 z"
+         mask="none"
+         sodipodi:nodetypes="ccccccscccccc" />
+      <g
+         id="g3670">
+        <path
+           style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:3.65632;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+           id="path3666"
+           sodipodi:type="arc"
+           sodipodi:cx="34.742054"
+           sodipodi:cy="35.165314"
+           sodipodi:rx="8.9393892"
+           sodipodi:ry="8.944293"
+           sodipodi:start="3.3163176"
+           sodipodi:end="3.8031217"
+           sodipodi:arc-type="arc"
+           sodipodi:open="true"
+           d="m 25.938772,33.610462 a 8.9393892,8.944293 0 0 1 1.749623,-3.939843" />
+        <path
+           style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:3.65632;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+           id="path3668"
+           sodipodi:type="arc"
+           sodipodi:cx="34.742054"
+           sodipodi:cy="35.165314"
+           sodipodi:rx="8.9393892"
+           sodipodi:ry="8.944293"
+           sodipodi:start="4.3293416"
+           sodipodi:end="4.349912"
+           sodipodi:arc-type="arc"
+           sodipodi:open="true"
+           d="m 31.400969,26.869214 a 8.9393892,8.944293 0 0 1 0.171255,-0.067" />
+      </g>
+    </g>
+  </g>
+</svg>
