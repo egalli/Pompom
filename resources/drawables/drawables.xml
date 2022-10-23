@@ -2,13 +2,10 @@
   <bitmap id="LauncherIcon" filename="launcher_icon.png" />
   <drawable-list id="start" background="Graphics.COLOR_TRANSPARENT">
     <shape type="circle" x="246" y="66" radius="44" color="Graphics.COLOR_GREEN" />
-    <shape type="polygon" points="[[235,77],[222,69],[222,87]]" color="Graphics.COLOR_BLACK" />
+    <shape type="polygon" points="[[237,75],[222,67],[222,85]]" color="Graphics.COLOR_BLACK" />
   </drawable-list>
   <drawable-list id="midbar" background="Graphics.COLOR_TRANSPARENT">
-    <shape type="rectangle" x="15%" y="center" width="70%" height="4" color="Graphics.COLOR_WHITE" />
-  </drawable-list>
-  <drawable-list id="centerbar" background="Graphics.COLOR_TRANSPARENT">
-    <shape type="rectangle" y="15%" x="center" height="70%" width="4" color="Graphics.COLOR_WHITE" />
+    <shape type="rectangle" x="5%" y="center" width="90%" height="2" color="Graphics.COLOR_WHITE" />
   </drawable-list>
   <drawable-list id="outlinecircle" background="Graphics.COLOR_TRANSPARENT">
     <shape type="circle" x="50%" y="50%" radius="129" color="Graphics.COLOR_TRANSPARENT" border_width="4" border_color="Graphics.COLOR_WHITE" />
@@ -17,6 +14,8 @@
   </drawable-list>
   <drawable-list id="pauseOver" background="Graphics.COLOR_TRANSPARENT">
     <shape type="circle" x="246" y="66" radius="44" color="Graphics.COLOR_GREEN" />
-    <shape type="polygon" points="[[235,77],[222,69],[222,87]]" color="Graphics.COLOR_BLACK" />
+    <shape type="polygon" points="[[237,75],[222,67],[222,85]]" color="Graphics.COLOR_BLACK" />
+    <shape type="circle" x="246" y="192" radius="44" color="Graphics.COLOR_RED" />
+    <shape type="rectangle" x="222" y="176" width="15" height="15"  color="Graphics.COLOR_BLACK" />
   </drawable-list>
 </resources>

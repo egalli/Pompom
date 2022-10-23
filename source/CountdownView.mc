@@ -30,13 +30,6 @@ function drawSec(
   var y = dc.getHeight() / 2;
 
   var arcAngle = (360 - angle + 90) % 360;
-  System.print("> ");
-  System.print(ccw);
-  System.print(" ");
-  System.print(arcAngle);
-  System.print(" ");
-  System.println(angle);
-
   var attr = Graphics.ARC_CLOCKWISE;
 
   if (!ccw) {
@@ -133,7 +126,7 @@ class CountdownView extends WatchUi.View {
     if (_isPaused) {
       dc.setPenWidth(4);
       dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-      drawSec(dc, 128, 0, false);
+      drawSec(dc, 128, 360, false);
       _pauseOverlay.draw(dc);
     } else {
       dc.setPenWidth(8);
