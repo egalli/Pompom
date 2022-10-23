@@ -1,6 +1,93 @@
 import Toybox.WatchUi;
 import Toybox.Graphics;
 import Toybox.Timer;
+import Toybox.System;
+
+// drawArc is kind of weird for even cirles (like the display). Therefore, we
+// split it into 4 draws for each quadrant.
+function drawSec(
+  dc as Dc,
+  r as Number,
+  angle as Number,
+  ccw as Boolean
+) as Void {
+  /*
+  drawArc's angles
+        90
+   180 __|__ 0
+         |
+        270
+
+  seconds to angles
+         0
+   270 __|__ 90
+         |
+        180
+
+  */
+
+  var x = dc.getWidth() / 2;
+  var y = dc.getHeight() / 2;
+
+  var arcAngle = (360 - angle + 90) % 360;
+  System.print("> ");
+  System.print(ccw);
+  System.print(" ");
+  System.print(arcAngle);
+  System.print(" ");
+  System.println(angle);
+
+  var attr = Graphics.ARC_CLOCKWISE;
+
+  if (!ccw) {
+    if (angle <= 0) {
+      return;
+    }
+
+    if (angle <= 90) {
+      dc.drawArc(x, y - 1, r, attr, 90, arcAngle);
+      return;
+    } else {
+      dc.drawArc(x, y - 1, r, attr, 90, 0);
+    }
+    if (angle <= 180) {
+      dc.drawArc(x, y, r, attr, 360, arcAngle);
+      return;
+    } else {
+      dc.drawArc(x, y, r, attr, 360, 270);
+    }
+    if (angle <= 270) {
+      dc.drawArc(x - 1, y, r, attr, 270, arcAngle);
+      return;
+    } else {
+      dc.drawArc(x - 1, y, r, attr, 270, 180);
+    }
+    dc.drawArc(x - 1, y - 1, r, attr, 180, arcAngle);
+  } else {
+    if (angle >= 360) {
+      return;
+    }
+    if (angle >= 270) {
+      dc.drawArc(x - 1, y - 1, r, attr, arcAngle, 90);
+      return;
+    } else {
+      dc.drawArc(x - 1, y - 1, r, attr, 180, 90);
+    }
+    if (angle >= 180) {
+      dc.drawArc(x - 1, y, r, attr, arcAngle, 180);
+      return;
+    } else {
+      dc.drawArc(x - 1, y, r, attr, 270, 180);
+    }
+    if (angle >= 90) {
+      dc.drawArc(x, y, r, attr, arcAngle, 270);
+      return;
+    } else {
+      dc.drawArc(x, y, r, attr, 360, 270);
+    }
+    dc.drawArc(x, y - 1, r, attr, arcAngle, 0);
+  }
+}
 
 class CountdownView extends WatchUi.View {
   private var _pauseOverlay as WatchUi.Drawable?;
@@ -17,12 +104,13 @@ class CountdownView extends WatchUi.View {
     View.initialize();
     _isBreak = false;
     _minutes = 0;
-    _angle = 0;
+    _angle = 360;
     _fillArc = $.PomStorage.getFillArc();
     _count = 0;
   }
 
   public function reset() {
+    // Will get flipping by the first setTime call
     _fillArc = true;
   }
 
@@ -42,24 +130,18 @@ class CountdownView extends WatchUi.View {
 
   public function onUpdate(dc as Dc) as Void {
     View.onUpdate(dc);
-    dc.setPenWidth(4);
-    var x = (dc.getWidth() - 1) / 2.0;
-    var y = (dc.getHeight() - 1) / 2.0;
     if (_isPaused) {
+      dc.setPenWidth(4);
       dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-      dc.drawCircle(x, y, x - 2);
+      drawSec(dc, 128, 0, false);
       _pauseOverlay.draw(dc);
     } else {
+      dc.setPenWidth(8);
       dc.setColor(
         _isBreak ? Graphics.COLOR_BLUE : Graphics.COLOR_GREEN,
         Graphics.COLOR_TRANSPARENT
       );
-      var a = 360 - _angle;
-      if (!_fillArc) {
-        dc.drawArc(x, y, x - 2, Graphics.ARC_CLOCKWISE, 90, a + 90);
-      } else if (a != 360) {
-        dc.drawArc(x, y, x - 2, Graphics.ARC_COUNTER_CLOCKWISE, 90, a + 90);
-      }
+      drawSec(dc, 126, _angle, !_fillArc);
     }
   }
 
@@ -95,7 +177,10 @@ class CountdownView extends WatchUi.View {
       WatchUi.requestUpdate();
     }
     var seconds = minutesFloat - minutesFloat.toNumber();
-    var angle = seconds * 360.0;
+    var angle = Math.round(seconds * 360.0).toNumber();
+    if (angle == 0) {
+      angle = 360;
+    }
     if (_angle != angle) {
       if (seconds == 0) {
         _fillArc = !_fillArc;
